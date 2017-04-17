@@ -35,22 +35,9 @@ $plugin->add_mode(
     help => 'Check the status of environmental equipment (fans, temperatures, power)',
 );
 $plugin->add_mode(
-    internal => 'device::hardware::load',
-    spec => 'cpu-load',
-    alias => ['cpu-usage'],
+    internal => 'device::printer::health',
+    spec => 'printer-load',
     help => 'Check the CPU load of the device',
-);
-$plugin->add_mode(
-    internal => 'device::hardware::memory',
-    spec => 'memory-usage',
-    alias => undef,
-    help => 'Check the memory usage of the device',
-);
-$plugin->add_mode(
-    internal => 'device::disk::usage',
-    spec => 'disk-usage',
-    alias => undef,
-    help => 'Check the disk usage of the device',
 );
 $plugin->add_snmp_modes();
 $plugin->add_snmp_args();
