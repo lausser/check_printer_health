@@ -35,9 +35,9 @@ $plugin->add_mode(
     help => 'Check the status of environmental equipment (fans, temperatures, power)',
 );
 $plugin->add_mode(
-    internal => 'device::printer::health',
-    spec => 'printer-load',
-    help => 'Check the CPU load of the device',
+    internal => 'device::printer::consumables',
+    spec => 'consumables-status',
+    help => 'Check the availability of consumables (toner, ink, paper)',
 );
 $plugin->add_snmp_modes();
 $plugin->add_snmp_args();

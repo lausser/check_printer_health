@@ -11,9 +11,8 @@ sub init {
 
   if ($self->mode =~ /device::hardware::health/) {
     $self->analyze_and_check_environmental_subsystem('Classes::HOSTRESOURCESMIB::Component::EnvironmentalSubsystem');
-    $self->clear_ok();
-    #$self->analyze_and_check_environmental_subsystem('Classes::XUPS::Components::EnvironmentalSubsystem');
-  } elsif ($self->mode =~ /device::battery/) {
+  } elsif ($self->mode =~ /device::consumables/) {
+    $self->analyze_and_check_environmental_subsystem('Classes::HOSTRESOURCESMIB::Component::EnvironmentalSubsystem');
     $self->analyze_and_check_battery_subsystem('Classes::Kyocera::Components::BatterySubsystem');
   } else {
     $self->no_such_mode();

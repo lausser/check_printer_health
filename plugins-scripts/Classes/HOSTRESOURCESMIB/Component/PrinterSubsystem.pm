@@ -24,6 +24,23 @@ package Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem::Printer;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
+sub finish {
+  my $self = shift;
+  my @errors = split('|', $self->{hrPrinterDetectedErrorState});
+  if ($self->mode eq 'device::hardware::health') {
+    @errors = grep ! /^(no|low)/, @errors;
+    if (! @errors && $self->{hrDeviceStatus} =~ /(warning|down)/) {
+      $self->{hrDeviceStatus} = 'running';
+    }
+  } else {
+    @errors = grep /^(no|low|good)/, @errors;
+    if (! @errors && $self->{hrDeviceStatus} =~ /(warning|down)/) {
+      $self->{hrDeviceStatus} = 'running';
+    }
+  }
+  $self->{hrPrinterDetectedErrorState} = join("|", @errors);
+}
+
 sub check {
   my $self = shift;
   $self->add_info(sprintf '%s has status %s',
