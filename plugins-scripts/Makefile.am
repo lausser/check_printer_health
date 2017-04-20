@@ -34,6 +34,7 @@ EXTRA_MODULES=\
   Classes/HOSTRESOURCESMIB.pm \
   Classes/PRINTERMIB.pm \
   Classes/Kyocera.pm \
+  Classes/Lexmark/Component/PrinterSubsystem.pm \
   Classes/Lexmark.pm \
   Classes/Brother.pm \
   Classes/Device.pm
