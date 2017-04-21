@@ -23,6 +23,9 @@ sub classify {
       } elsif ($self->implements_mib('BROTHER-MIB')) {
         bless $self, 'Classes::Brother';
         $self->debug('using Classes::Brother');
+      } elsif ($self->implements_mib('PRINTER-MIB')) {
+        bless $self, 'Classes::PRINTERMIB';
+        $self->debug('using Classes::PRINTERMIB');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;

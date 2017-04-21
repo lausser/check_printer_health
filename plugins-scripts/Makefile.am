@@ -29,11 +29,13 @@ EXTRA_MODULES=\
   Classes/HOSTRESOURCESMIB/Component/DiskSubsystem.pm \
   Classes/HOSTRESOURCESMIB/Component/EnvironmentalSubsystem.pm \
   Classes/HOSTRESOURCESMIB/Component/MemSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/PrinterSubsystem.pm \
+  Classes/HOSTRESOURCESMIB/Component/ConsumablesSubsystem.pm \
   Classes/HOSTRESOURCESMIB/Component/UptimeSubsystem.pm \
   Classes/HOSTRESOURCESMIB.pm \
+  Classes/PRINTERMIB/Component/PrinterSubsystem.pm \
   Classes/PRINTERMIB.pm \
   Classes/Kyocera.pm \
+  Classes/Lexmark/Component/ConsumablesSubsystem.pm
   Classes/Lexmark/Component/PrinterSubsystem.pm \
   Classes/Lexmark.pm \
   Classes/Brother.pm \
