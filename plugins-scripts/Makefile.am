@@ -24,19 +24,13 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/TableItem.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/UPNP.pm
 EXTRA_MODULES=\
-  Classes/HOSTRESOURCESMIB/Component/CpuSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/DeviceSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/DiskSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/EnvironmentalSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/MemSubsystem.pm \
+  Classes/HOSTRESOURCESMIB/Component/PrinterSubsystem.pm \
   Classes/HOSTRESOURCESMIB/Component/ConsumablesSubsystem.pm \
   Classes/HOSTRESOURCESMIB/Component/UptimeSubsystem.pm \
   Classes/HOSTRESOURCESMIB.pm \
   Classes/PRINTERMIB/Component/PrinterSubsystem.pm \
   Classes/PRINTERMIB.pm \
   Classes/Kyocera.pm \
-  Classes/Lexmark/Component/ConsumablesSubsystem.pm
-  Classes/Lexmark/Component/PrinterSubsystem.pm \
   Classes/Lexmark.pm \
   Classes/Brother.pm \
   Classes/Device.pm

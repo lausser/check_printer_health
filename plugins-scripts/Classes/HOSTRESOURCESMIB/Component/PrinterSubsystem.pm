@@ -1,4 +1,4 @@
-package Classes::HOSTRESOURCESMIB::Component::ConsumablesSubsystem;
+package Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
@@ -20,14 +20,14 @@ sub init {
   delete $self->{devices};
 }
 
-package Classes::HOSTRESOURCESMIB::Component::ConsumablesSubsystem::Printer;
+package Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem::Printer;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish {
   my $self = shift;
   my @errors = split('|', $self->{hrPrinterDetectedErrorState});
-  @errors = grep /^(no|low|good)/, @errors;
+  @errors = grep ! /^(no|low)/, @errors;
   if (! @errors && $self->{hrDeviceStatus} =~ /(warning|down)/) {
     $self->{hrDeviceStatus} = 'running';
   }

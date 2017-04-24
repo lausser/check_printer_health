@@ -14,6 +14,12 @@ sub classify {
       }
       if ($self->opts->mode =~ /^my-/) {
         $self->load_my_extension();
+      } elsif ($self->implements_mib('PRINTER-MIB')) {
+        bless $self, 'Classes::PRINTERMIB';
+        $self->debug('using Classes::PRINTERMIB');
+      } elsif ($self->implements_mib('HOSTRESOURCES-MIB')) {
+        bless $self, 'Classes::HOSTRECOURCESMIB';
+        $self->debug('using Classes::HOSTRECOURCESMIB');
       } elsif ($self->implements_mib('LEXMARK-PVT-MIB')) {
         bless $self, 'Classes::Lexmark';
         $self->debug('using Classes::Lexmark');
@@ -23,9 +29,6 @@ sub classify {
       } elsif ($self->implements_mib('BROTHER-MIB')) {
         bless $self, 'Classes::Brother';
         $self->debug('using Classes::Brother');
-      } elsif ($self->implements_mib('PRINTER-MIB')) {
-        bless $self, 'Classes::PRINTERMIB';
-        $self->debug('using Classes::PRINTERMIB');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;
