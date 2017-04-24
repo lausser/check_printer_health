@@ -36,8 +36,8 @@ $plugin->add_mode(
 );
 $plugin->add_mode(
     internal => 'device::printer::consumables',
-    spec => 'consumables-status',
-    help => 'Check the availability of consumables (toner, ink, paper)',
+    spec => 'supplies-status',
+    help => 'Check the availability of consumables (toner, ink, ...)',
 );
 $plugin->add_snmp_modes();
 $plugin->add_snmp_args();

@@ -17,9 +17,9 @@ sub classify {
       } elsif ($self->implements_mib('PRINTER-MIB')) {
         bless $self, 'Classes::PRINTERMIB';
         $self->debug('using Classes::PRINTERMIB');
-      } elsif ($self->implements_mib('HOSTRESOURCES-MIB')) {
-        bless $self, 'Classes::HOSTRECOURCESMIB';
-        $self->debug('using Classes::HOSTRECOURCESMIB');
+      } elsif ($self->implements_mib('HOST-RESOURCES-MIB')) {
+        bless $self, 'Classes::HOSTRESOURCESMIB';
+        $self->debug('using Classes::HOSTRESOURCESMIB');
       } elsif ($self->implements_mib('LEXMARK-PVT-MIB')) {
         bless $self, 'Classes::Lexmark';
         $self->debug('using Classes::Lexmark');

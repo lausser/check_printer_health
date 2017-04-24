@@ -7,7 +7,8 @@ sub init {
   if ($self->mode =~ /device::hardware::health/) {
     $self->analyze_and_check_environmental_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
   } elsif ($self->mode =~ /device::printer::consumables/) {
-    $self->analyze_and_check_environmental_subsystem('Classes::PRINTERMIB::Component::ConsumablesSubsystem');
+    $self->analyze_and_check_environmental_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
+    $self->reduce_messages_short('supplies status is fine');
   } else {
     $self->no_such_mode();
   }
