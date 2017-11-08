@@ -6,6 +6,7 @@ sub init {
   my ($self) = @_;
   if ($self->mode =~ /device::hardware::health/) {
     $self->get_snmp_tables('PRINTER-MIB', [
+        ['displays', 'prtConsoleDisplayBufferTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Display'],
         ['covers', 'prtCoverTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Cover'],
         ['channels', 'prtChannelTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Channel'],
     ]);
@@ -33,6 +34,15 @@ sub check {
   if ($self->{prtCoverStatus} =~ /Open/) {
     $self->add_critical();
   }
+}
+
+package Classes::PRINTERMIB::Component::PrinterSubsystem::Display;
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
+use strict;
+
+sub check {
+  my ($self) = @_;
+  $self->add_ok($self->{prtConsoleDisplayBufferText});
 }
 
 package Classes::PRINTERMIB::Component::PrinterSubsystem::Input;
@@ -66,46 +76,75 @@ sub finish {
 
 sub check {
   my ($self) = @_;
+  $self->{usage} = 100 * $self->{prtMarkerSuppliesLevel} /
+      $self->{prtMarkerSuppliesMaxCapacity};
+  $self->add_info(sprintf '%s is at %.2f%%',
+      $self->{prtMarkerSuppliesDescription}, $self->{usage}
+  );
+  my $label = $self->{prtMarkerSuppliesDescription};
+  $label =~ s/\s+/_/g;
+  $label =~ s/://g;
   if ($self->{prtMarkerSuppliesClass} eq 'supplyThatIsConsumed') {
-    $self->{usage} = 100 * $self->{prtMarkerSuppliesLevel} /
-        $self->{prtMarkerSuppliesMaxCapacity};
-    $self->add_info(sprintf '%s is at %.2f%%',
-        $self->{prtMarkerSuppliesDescription}, $self->{usage}
-    );
-    my $label = $self->{prtMarkerSuppliesDescription}.'_remaining';
-    $label =~ s/\s+/_/g;
-    $label =~ s/://g;
+    $label .= '_remaining';
     $self->set_thresholds(
         metric => $label, warning => '20:', critical => '5:',
     );
-    if ($self->{prtMarkerSuppliesLevel} == -1) {
-      $self->add_message_ok($self->check_thresholds(
-          metric => $label, value => $self->{usage},
-      ));
-    } elsif ($self->{prtMarkerSuppliesLevel} == -2) {
-      # The value (-2) means unknown
-      $self->add_unknown(sprintf 'status of %s is unknown',
-          $self->{prtMarkerSuppliesDescription});
-    } elsif ($self->{prtMarkerSuppliesLevel} == -3) {
-      # A value of (-3) means that the
-      # printer knows that there is some supply/remaining space
-      $self->add_message_ok();
-      $self->set_thresholds(
-          metric => $label, warning => '', critical => '',
-      );
-      $self->add_perfdata(
-          label => $label, value => 0, uom => '%',
-      );
-    } else {
-      $self->add_message($self->check_thresholds(
-          metric => $label, value => $self->{usage},
-      ));
-      $self->add_perfdata(
-          label => $label, value => $self->{usage}, uom => '%',
-      );
-    }
   } elsif ($self->{prtMarkerSuppliesClass} eq 'receptacleThatIsFilled') {
-
+    $label .= '_used';
+    $self->set_thresholds(
+        metric => $label, warning => '90', critical => '95',
+    );
+  }
+  if ($self->{prtMarkerSuppliesLevel} == -1) {
+    # indicates that the sub-unit places no restrictions on this parameter
+    $self->add_ok();
+  } elsif ($self->{prtMarkerSuppliesLevel} == -2) {
+    # The value (-2) means unknown
+    $self->add_unknown(sprintf 'status of %s is unknown',
+        $self->{prtMarkerSuppliesDescription});
+  } elsif ($self->{prtMarkerSuppliesLevel} == -3) {
+    # A value of (-3) means that the
+    # printer knows that there is some supply/remaining space
+    $self->add_info(sprintf '%s is sufficiently large',
+        $self->{prtMarkerSuppliesDescription}
+    );
+    $self->add_ok();
+  } else {
+    if ($self->opts->can("morphmessage") && $self->opts->morphmessage) {
+      foreach my $key (keys %{$self->opts->morphmessage}) {
+        next if $key ne "empty_full" && $key ne "leer_voll";
+        my $empty = (split("_", $key))[0];
+        my $full = (split("_", $key))[1];
+        if ($self->{prtMarkerSuppliesDescription} =~
+            $self->opts->morphmessage->{$key}) {
+          $self->get_last_info();
+          if ($self->check_thresholds(
+              metric => $label, value => $self->{usage})) {
+            if ($self->{prtMarkerSuppliesClass} eq 'supplyThatIsConsumed') {
+              $self->add_info(sprintf '%s %s',
+                  $self->{prtMarkerSuppliesDescription}, $empty);
+            } else {
+              $self->add_info(sprintf '%s %s',
+                  $self->{prtMarkerSuppliesDescription}, $full);
+            }
+          } else {
+            if ($self->{prtMarkerSuppliesClass} eq 'supplyThatIsConsumed') {
+              $self->add_info(sprintf '%s %s',
+                  $self->{prtMarkerSuppliesDescription}, $full);
+            } else {
+              $self->add_info(sprintf '%s %s',
+                  $self->{prtMarkerSuppliesDescription}, $empty);
+            }
+          }
+        }
+      }
+    }
+    $self->add_message($self->check_thresholds(
+        metric => $label, value => $self->{usage},
+    ));
+    $self->add_perfdata(
+        label => $label, value => $self->{usage}, uom => '%',
+    );
   }
 }
 

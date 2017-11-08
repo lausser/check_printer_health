@@ -32,7 +32,7 @@ $plugin->add_mode(
     internal => 'device::hardware::health',
     spec => 'hardware-health',
     alias => undef,
-    help => 'Check the status of environmental equipment (fans, temperatures, power)',
+    help => 'Check the status of hardware, if printing is possible',
 );
 $plugin->add_mode(
     internal => 'device::printer::consumables',
