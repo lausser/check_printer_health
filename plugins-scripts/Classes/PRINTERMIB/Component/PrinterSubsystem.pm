@@ -64,14 +64,14 @@ use strict;
 sub finish {
   my ($self) = @_;
   if ($self->{prtMarkerSuppliesDescription} =~ /^[^ ]{2} [^ ]{2} [^ ]{2}/) {
+    # wird ueblicherweise gehext, wenn da umlautschlonz drin ist
     $self->{prtMarkerSuppliesDescription} =
         $self->unhex_octet_string($self->{prtMarkerSuppliesDescription});
-    # wird ueblicherweise gehext, wenn da umlautschlonz drin ist
-    $self->{prtMarkerSuppliesDescription} =~ s/[[:^ascii:]]//g;
   } elsif (! $self->{prtMarkerSuppliesDescription}) {
     # Kyocera ECOSYS P2135dn, prtMarkerSuppliesDescription is empty
     $self->{prtMarkerSuppliesDescription} = $self->{prtMarkerSuppliesType};
   }
+  $self->{prtMarkerSuppliesDescription} = $self->accentfree($self->{prtMarkerSuppliesDescription});
 }
 
 sub check {
