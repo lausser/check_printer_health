@@ -42,7 +42,9 @@ use strict;
 
 sub check {
   my ($self) = @_;
-  $self->add_ok($self->accentfree($self->{prtConsoleDisplayBufferText}));
+  if ($self->{prtConsoleDisplayBufferText}) {
+    $self->add_ok($self->accentfree($self->{prtConsoleDisplayBufferText}));
+  }
 }
 
 package Classes::PRINTERMIB::Component::PrinterSubsystem::Input;

@@ -10,10 +10,11 @@ sub init {
       # ...kontrolle ist besser.
       $self->analyze_and_check_printer_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
     }
-    $self->reduce_messages('hardware working fine');
+    $self->reduce_messages_short('hardware working fine');
   } elsif ($self->mode =~ /device::printer::consumables/) {
     $self->analyze_and_check_consumables_subsystem('Classes::Lexmark::Component::ConsumablesSubsystem');
     $self->analyze_and_check_consumables_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
+    $self->reduce_messages_short('supplies status is fine');
   } else {
     $self->no_such_mode();
   }
