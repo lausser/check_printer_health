@@ -14,15 +14,15 @@ sub classify {
       }
       if ($self->opts->mode =~ /^my-/) {
         $self->load_my_extension();
+      } elsif ($self->implements_mib('LEXMARK-PVT-MIB')) {
+        bless $self, 'Classes::Lexmark';
+        $self->debug('using Classes::Lexmark');
       } elsif ($self->implements_mib('PRINTER-MIB')) {
         bless $self, 'Classes::PRINTERMIB';
         $self->debug('using Classes::PRINTERMIB');
       } elsif ($self->implements_mib('HOST-RESOURCES-MIB')) {
         bless $self, 'Classes::HOSTRESOURCESMIB';
         $self->debug('using Classes::HOSTRESOURCESMIB');
-      } elsif ($self->implements_mib('LEXMARK-PVT-MIB')) {
-        bless $self, 'Classes::Lexmark';
-        $self->debug('using Classes::Lexmark');
       } elsif ($self->implements_mib('KYOCERA-Private-MIB')) {
         bless $self, 'Classes::Kyocera';
         $self->debug('using Classes::Kyocera');

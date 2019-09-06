@@ -28,11 +28,11 @@ use strict;
 sub check {
   my ($self) = @_;
   $self->add_info(sprintf '%s is %s',
-      $self->{prtCoverDescription},
+      $self->accentfree($self->{prtCoverDescription}),
       $self->{prtCoverStatus}
   );
   if ($self->{prtCoverStatus} =~ /Open/) {
-    $self->add_critical();
+    $self->add_warning();
   }
 }
 
@@ -42,7 +42,7 @@ use strict;
 
 sub check {
   my ($self) = @_;
-  $self->add_ok($self->{prtConsoleDisplayBufferText});
+  $self->add_ok($self->accentfree($self->{prtConsoleDisplayBufferText}));
 }
 
 package Classes::PRINTERMIB::Component::PrinterSubsystem::Input;
@@ -81,7 +81,7 @@ sub check {
   $self->add_info(sprintf '%s is at %.2f%%',
       $self->{prtMarkerSuppliesDescription}, $self->{usage}
   );
-  my $label = $self->{prtMarkerSuppliesDescription};
+  my $label = $self->accentfree($self->{prtMarkerSuppliesDescription});
   $label =~ s/\s+/_/g;
   $label =~ s/://g;
   if ($self->{prtMarkerSuppliesClass} eq 'supplyThatIsConsumed') {

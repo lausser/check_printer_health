@@ -5,11 +5,15 @@ use strict;
 sub init {
   my $self = shift;
   if ($self->mode =~ /device::hardware::health/) {
-    #$self->analyze_and_check_environmental_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
-    $self->analyze_and_check_battery_subsystem('Classes::Lexmark::Component::PrinterSubsystem');
+    $self->analyze_and_check_lxprinter_subsystem('Classes::Lexmark::Component::PrinterSubsystem');
+    if (! $self->check_errors()) {
+      # ...kontrolle ist besser.
+      $self->analyze_and_check_printer_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
+    }
+    $self->reduce_messages('hardware working fine');
   } elsif ($self->mode =~ /device::printer::consumables/) {
-    #$self->analyze_and_check_battery_subsystem('Classes::Lexmark::Components::ConsumablesSubsystem');
-    $self->analyze_and_check_battery_subsystem('Classes::Lexmark::Component::PrinterSubsystem');
+    $self->analyze_and_check_consumables_subsystem('Classes::Lexmark::Component::ConsumablesSubsystem');
+    $self->analyze_and_check_consumables_subsystem('Classes::PRINTERMIB::Component::PrinterSubsystem');
   } else {
     $self->no_such_mode();
   }
