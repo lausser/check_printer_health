@@ -21,6 +21,18 @@ sub init {
   }
 }
 
+sub check {
+  my ($self) = @_;
+  $self->SUPER::check();
+  if ($self->mode =~ /device::hardware::health/) {
+    $self->reduce_messages("hardware working fine");
+  } elsif ($self->mode =~ /device::printer::consumables/) {
+    $self->reduce_messages("supplies status is fine");
+  } else {
+    $self->reduce_messages("wos is?");
+  }
+}
+
 package Classes::PRINTERMIB::Component::PrinterSubsystem::Cover;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
@@ -78,8 +90,18 @@ sub finish {
 
 sub check {
   my ($self) = @_;
-  $self->{usage} = 100 * $self->{prtMarkerSuppliesLevel} /
-      $self->{prtMarkerSuppliesMaxCapacity};
+  if ($self->{prtMarkerSuppliesMaxCapacity} == 0) {
+    # prtMarkerSuppliesClass: supplyThatIsConsumed
+    # prtMarkerSuppliesDescription: Black Toner
+    # prtMarkerSuppliesLevel: 0
+    # prtMarkerSuppliesMarkerIndex: 1
+    # prtMarkerSuppliesMaxCapacity: 0
+    $self->{usage} = $self->{prtMarkerSuppliesClass} eq 'supplyThatIsConsumed' ?
+        100 : 0;
+  } else {
+    $self->{usage} = 100 * $self->{prtMarkerSuppliesLevel} /
+        $self->{prtMarkerSuppliesMaxCapacity};
+  }
   $self->add_info(sprintf '%s is at %.2f%%',
       $self->{prtMarkerSuppliesDescription}, $self->{usage}
   );
