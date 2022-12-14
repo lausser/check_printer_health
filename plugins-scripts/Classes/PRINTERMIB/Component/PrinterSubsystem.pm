@@ -86,6 +86,8 @@ sub finish {
     $self->{prtMarkerSuppliesDescription} = $self->{prtMarkerSuppliesType};
   }
   $self->{prtMarkerSuppliesDescription} = $self->accentfree($self->{prtMarkerSuppliesDescription});
+  # Found a JetDirect which added nul here and gearman cut off the perfdata
+  $self->{prtMarkerSuppliesDescription} = unpack("Z*", $self->{prtMarkerSuppliesDescription});
 }
 
 sub check {
