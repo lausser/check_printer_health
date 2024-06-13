@@ -9,7 +9,7 @@ sub init {
         ['displays', 'prtConsoleDisplayBufferTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Display'],
         ['covers', 'prtCoverTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Cover'],
         ['channels', 'prtChannelTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Channel'],
-        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert'],
+        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} !~ /toner/i }],
     ]);
   } elsif ($self->mode =~ /device::printer::consumables/) {
     $self->get_snmp_tables('PRINTER-MIB', [
@@ -18,6 +18,7 @@ sub init {
         ['supplies', 'prtMarkerSuppliesTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply'],
         ['markers', 'prtMarkerTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Marker'],
         ['media', 'prtMediaPathTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::MediaPath'],
+        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} =~ /toner/i }],
     ]);
   }
 }
@@ -53,11 +54,15 @@ package Classes::PRINTERMIB::Component::PrinterSubsystem::Alert;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
+sub finish {
+  my ($self) = @_;
+  $self->{prtAlertDescription} =
+      $self->accentfree($self->{prtAlertDescription});
+}
+
 sub check {
   my ($self) = @_;
-  $self->add_info(sprintf 'Alert: %s',
-      $self->accentfree($self->{prtAlertDescription})
-  );
+  $self->add_info(sprintf 'Alert: %s', $self->{prtAlertDescription});
   if ($self->{prtAlertDescription} !~ /Sleep/) {
     $self->add_warning();
   }
