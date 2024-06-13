@@ -1,12 +1,12 @@
-package Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem;
+package CheckPrinterHealth::HOSTRESOURCESMIB::Component::ConsumablesSubsystem;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
 sub init {
   my $self = shift;
   $self->get_snmp_tables('HOST-RESOURCES-MIB', [
-      ['printers', 'hrPrinterTable', 'Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem::Printer'],
-      ['devices', 'hrDeviceTable', 'Classes::HOSTRESOURCESMIB::Component::DeviceSubsystem::Device'],
+      ['printers', 'hrPrinterTable', 'CheckPrinterHealth::HOSTRESOURCESMIB::Component::PrinterSubsystem::Printer'],
+      ['devices', 'hrDeviceTable', 'CheckPrinterHealth::HOSTRESOURCESMIB::Component::DeviceSubsystem::Device'],
   ]);
   foreach my $printer (@{$self->{printers}}) {
     foreach my $device (@{$self->{devices}}) {
@@ -20,14 +20,14 @@ sub init {
   delete $self->{devices};
 }
 
-package Classes::HOSTRESOURCESMIB::Component::PrinterSubsystem::Printer;
+package CheckPrinterHealth::HOSTRESOURCESMIB::Component::ConsumablesSubsystem::Printer;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
 sub finish {
   my $self = shift;
   my @errors = split('|', $self->{hrPrinterDetectedErrorState});
-  @errors = grep ! /^(no|low)/, @errors;
+  @errors = grep /^(no|low|good)/, @errors;
   if (! @errors && $self->{hrDeviceStatus} =~ /(warning|down)/) {
     $self->{hrDeviceStatus} = 'running';
   }

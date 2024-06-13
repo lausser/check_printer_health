@@ -1,18 +1,18 @@
-package Classes::Lexmark::Component::PrinterSubsystem;;
+package CheckPrinterHealth::Lexmark::Component::PrinterSubsystem;;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
 sub init {
   my $self = shift;
   $self->get_snmp_tables('LEXMARK-MPS-MIB', [
-      ['alerts', 'deviceAlertTable', 'Classes::Lexmark::Component::PrinterSubsystem::Alert'],
+      ['alerts', 'deviceAlertTable', 'CheckPrinterHealth::Lexmark::Component::PrinterSubsystem::Alert'],
   ]);
   $self->get_snmp_tables('LEXMARK-PVT-MIB', [
-      ['prtgens', 'prtgenStatusTable', 'Classes::Lexmark::Component::PrinterSubsystem::Printer'],
+      ['prtgens', 'prtgenStatusTable', 'CheckPrinterHealth::Lexmark::Component::PrinterSubsystem::Printer'],
   ]);
 }
 
-package Classes::Lexmark::Component::PrinterSubsystem::Alert;
+package CheckPrinterHealth::Lexmark::Component::PrinterSubsystem::Alert;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
@@ -40,7 +40,7 @@ sub check {
 }
 
 
-package Classes::Lexmark::Component::PrinterSubsystem::Printer;
+package CheckPrinterHealth::Lexmark::Component::PrinterSubsystem::Printer;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 

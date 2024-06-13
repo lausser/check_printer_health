@@ -30,18 +30,18 @@ GL_MODULES=\
   ../GLPlugin/lib/Monitoring/GLPlugin/SNMP/TableItem.pm \
   ../GLPlugin/lib/Monitoring/GLPlugin/UPNP.pm
 EXTRA_MODULES=\
-  Classes/HOSTRESOURCESMIB/Component/PrinterSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/ConsumablesSubsystem.pm \
-  Classes/HOSTRESOURCESMIB/Component/UptimeSubsystem.pm \
-  Classes/HOSTRESOURCESMIB.pm \
-  Classes/PRINTERMIB/Component/PrinterSubsystem.pm \
-  Classes/PRINTERMIB.pm \
-  Classes/Kyocera.pm \
-  Classes/Lexmark/Component/PrinterSubsystem.pm \
-  Classes/Lexmark/Component/ConsumablesSubsystem.pm \
-  Classes/Lexmark.pm \
-  Classes/Brother.pm \
-  Classes/Device.pm
+  CheckPrinterHealth/HOSTRESOURCESMIB/Component/PrinterSubsystem.pm \
+  CheckPrinterHealth/HOSTRESOURCESMIB/Component/ConsumablesSubsystem.pm \
+  CheckPrinterHealth/HOSTRESOURCESMIB/Component/UptimeSubsystem.pm \
+  CheckPrinterHealth/HOSTRESOURCESMIB.pm \
+  CheckPrinterHealth/PRINTERMIB/Component/PrinterSubsystem.pm \
+  CheckPrinterHealth/PRINTERMIB.pm \
+  CheckPrinterHealth/Kyocera.pm \
+  CheckPrinterHealth/Lexmark/Component/PrinterSubsystem.pm \
+  CheckPrinterHealth/Lexmark/Component/ConsumablesSubsystem.pm \
+  CheckPrinterHealth/Lexmark.pm \
+  CheckPrinterHealth/Brother.pm \
+  CheckPrinterHealth/Device.pm
 
 SED=/bin/sed
 GREP=/bin/grep

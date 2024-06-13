@@ -1,15 +1,15 @@
-package Classes::Lexmark::Component::ConsumablesSubsystem;
+package CheckPrinterHealth::Lexmark::Component::ConsumablesSubsystem;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
 sub init {
   my ($self) = @_;
   $self->get_snmp_tables('LEXMARK-MPS-MIB', [
-      ['supplies', 'currentSuppliesTable', 'Classes::Lexmark::Component::ConsumablesSubsystem::Supply'],
+      ['supplies', 'currentSuppliesTable', 'CheckPrinterHealth::Lexmark::Component::ConsumablesSubsystem::Supply'],
   ]);
 }
 
-package Classes::Lexmark::Component::ConsumablesSubsystem::Supply;
+package CheckPrinterHealth::Lexmark::Component::ConsumablesSubsystem::Supply;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 

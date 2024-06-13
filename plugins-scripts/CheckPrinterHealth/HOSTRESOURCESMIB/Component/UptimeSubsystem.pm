@@ -1,4 +1,4 @@
-package Classes::HOSTRESOURCESMIB::Component::UptimeSubsystem;
+package CheckPrinterHealth::HOSTRESOURCESMIB::Component::UptimeSubsystem;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 

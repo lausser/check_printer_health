@@ -1,3 +1,6 @@
+* 2024-06-13 1.2
+  pull request #3 from Napsty/prtAlert (PRINTER-MIB alert-table)
+  reorganized folders and classes to make this plugin run unter ePN
 * 2022-12-14 1.1.0.2
   remove trailing nul from JetDirect prtMarkerSuppliesDescription
 * 2020-03-02 1.1.0.1

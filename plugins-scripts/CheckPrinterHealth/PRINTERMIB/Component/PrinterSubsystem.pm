@@ -1,4 +1,4 @@
-package Classes::PRINTERMIB::Component::PrinterSubsystem;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::Item);
 use strict;
 
@@ -6,19 +6,19 @@ sub init {
   my ($self) = @_;
   if ($self->mode =~ /device::hardware::health/) {
     $self->get_snmp_tables('PRINTER-MIB', [
-        ['displays', 'prtConsoleDisplayBufferTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Display'],
-        ['covers', 'prtCoverTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Cover'],
-        ['channels', 'prtChannelTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Channel'],
-        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} !~ /toner/i }],
+        ['displays', 'prtConsoleDisplayBufferTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Display'],
+        ['covers', 'prtCoverTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Cover'],
+        ['channels', 'prtChannelTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Channel'],
+        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} !~ /toner/i }],
     ]);
   } elsif ($self->mode =~ /device::printer::consumables/) {
     $self->get_snmp_tables('PRINTER-MIB', [
-        ['inputs', 'prtInputTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Input'],
-        ['outputs', 'prtOutputTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Output'],
-        ['supplies', 'prtMarkerSuppliesTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply'],
-        ['markers', 'prtMarkerTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Marker'],
-        ['media', 'prtMediaPathTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::MediaPath'],
-        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} =~ /toner/i }],
+        ['inputs', 'prtInputTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Input'],
+        ['outputs', 'prtOutputTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Output'],
+        ['supplies', 'prtMarkerSuppliesTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply'],
+        ['markers', 'prtMarkerTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Marker'],
+        ['media', 'prtMediaPathTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MediaPath'],
+        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} =~ /toner/i }],
     ]);
   }
 }
@@ -35,7 +35,7 @@ sub check {
   }
 }
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Cover;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Cover;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
@@ -50,7 +50,7 @@ sub check {
   }
 }
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Alert;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
@@ -68,7 +68,7 @@ sub check {
   }
 }
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Display;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Display;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
@@ -79,19 +79,19 @@ sub check {
   }
 }
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Input;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Input;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Output;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Output;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Marker;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Marker;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
@@ -194,11 +194,11 @@ sub check {
   }
 }
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::MediaPath;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MediaPath;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 
-package Classes::PRINTERMIB::Component::PrinterSubsystem::Channel;
+package CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Channel;
 our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
 use strict;
 

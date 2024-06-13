@@ -1,4 +1,4 @@
-package Classes::Device;
+package CheckPrinterHealth::Device;
 our @ISA = qw(Monitoring::GLPlugin::SNMP);
 use strict;
 
@@ -15,27 +15,27 @@ sub classify {
       if ($self->opts->mode =~ /^my-/) {
         $self->load_my_extension();
       } elsif ($self->implements_mib('LEXMARK-PVT-MIB')) {
-        bless $self, 'Classes::Lexmark';
-        $self->debug('using Classes::Lexmark');
+        bless $self, 'CheckPrinterHealth::Lexmark';
+        $self->debug('using CheckPrinterHealth::Lexmark');
       } elsif ($self->implements_mib('PRINTER-MIB')) {
-        bless $self, 'Classes::PRINTERMIB';
-        $self->debug('using Classes::PRINTERMIB');
+        bless $self, 'CheckPrinterHealth::PRINTERMIB';
+        $self->debug('using CheckPrinterHealth::PRINTERMIB');
       } elsif ($self->implements_mib('HOST-RESOURCES-MIB')) {
-        bless $self, 'Classes::HOSTRESOURCESMIB';
-        $self->debug('using Classes::HOSTRESOURCESMIB');
+        bless $self, 'CheckPrinterHealth::HOSTRESOURCESMIB';
+        $self->debug('using CheckPrinterHealth::HOSTRESOURCESMIB');
       } elsif ($self->implements_mib('KYOCERA-Private-MIB')) {
-        bless $self, 'Classes::Kyocera';
-        $self->debug('using Classes::Kyocera');
+        bless $self, 'CheckPrinterHealth::Kyocera';
+        $self->debug('using CheckPrinterHealth::Kyocera');
       } elsif ($self->implements_mib('BROTHER-MIB')) {
-        bless $self, 'Classes::Brother';
-        $self->debug('using Classes::Brother');
+        bless $self, 'CheckPrinterHealth::Brother';
+        $self->debug('using CheckPrinterHealth::Brother');
       } else {
         if (my $class = $self->discover_suitable_class()) {
           bless $self, $class;
           $self->debug('using '.$class);
         } else {
-          bless $self, 'Classes::Generic';
-          $self->debug('using Classes::Generic');
+          bless $self, 'CheckPrinterHealth::Generic';
+          $self->debug('using CheckPrinterHealth::Generic');
         }
       }
     }
@@ -44,8 +44,8 @@ sub classify {
 }
 
 
-package Classes::Generic;
-our @ISA = qw(Classes::Device);
+package CheckPrinterHealth::Generic;
+our @ISA = qw(CheckPrinterHealth::Device);
 use strict;
 
 sub init {
