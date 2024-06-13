@@ -9,6 +9,7 @@ sub init {
         ['displays', 'prtConsoleDisplayBufferTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Display'],
         ['covers', 'prtCoverTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Cover'],
         ['channels', 'prtChannelTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Channel'],
+        ['alerts', 'prtAlertTable', 'Classes::PRINTERMIB::Component::PrinterSubsystem::Alert'],
     ]);
   } elsif ($self->mode =~ /device::printer::consumables/) {
     $self->get_snmp_tables('PRINTER-MIB', [
@@ -44,6 +45,20 @@ sub check {
       $self->{prtCoverStatus}
   );
   if ($self->{prtCoverStatus} =~ /Open/) {
+    $self->add_warning();
+  }
+}
+
+package Classes::PRINTERMIB::Component::PrinterSubsystem::Alert;
+our @ISA = qw(Monitoring::GLPlugin::SNMP::TableItem);
+use strict;
+
+sub check {
+  my ($self) = @_;
+  $self->add_info(sprintf 'Alert: %s',
+      $self->accentfree($self->{prtAlertDescription})
+  );
+  if ($self->{prtAlertDescription} !~ /Sleep/) {
     $self->add_warning();
   }
 }
