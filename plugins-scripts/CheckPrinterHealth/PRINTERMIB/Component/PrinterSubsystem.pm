@@ -9,7 +9,7 @@ sub init {
         ['displays', 'prtConsoleDisplayBufferTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Display'],
         ['covers', 'prtCoverTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Cover'],
         ['channels', 'prtChannelTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Channel'],
-        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} !~ /toner/i }],
+        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} and $a->{prtAlertDescription} !~ /toner/i }],
     ]);
   } elsif ($self->mode =~ /device::printer::consumables/) {
     $self->get_snmp_tables('PRINTER-MIB', [
@@ -18,7 +18,7 @@ sub init {
         ['supplies', 'prtMarkerSuppliesTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MarkerSupply'],
         ['markers', 'prtMarkerTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Marker'],
         ['media', 'prtMediaPathTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::MediaPath'],
-        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} =~ /toner/i }],
+        ['alerts', 'prtAlertTable', 'CheckPrinterHealth::PRINTERMIB::Component::PrinterSubsystem::Alert', sub { my $a = shift; $a->{prtAlertDescription} and $a->{prtAlertDescription} =~ /toner/i }],
     ]);
   }
 }
@@ -58,6 +58,9 @@ sub finish {
   my ($self) = @_;
   $self->{prtAlertDescription} =
       $self->accentfree($self->{prtAlertDescription});
+  # empty prtAlertDescription seems to be traps
+  $self->{prtAlertAge} = $self->ago_sysuptime($self->{prtAlertTime});
+  $self->{prtAlertTimeHuman} = scalar localtime(time - $self->{prtAlertAge});
 }
 
 sub check {

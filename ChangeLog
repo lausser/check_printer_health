@@ -1,3 +1,5 @@
+* 2024-07-25 1.2.0.1
+  ignore alerts which have no description
 * 2024-06-13 1.2
   pull request #3 from Napsty/prtAlert (PRINTER-MIB alert-table)
   reorganized folders and classes to make this plugin run unter ePN
