@@ -66,7 +66,7 @@ sub finish {
 sub check {
   my ($self) = @_;
   $self->add_info(sprintf 'Alert: %s', $self->{prtAlertDescription});
-  if ($self->{prtAlertDescription} !~ /Sleep/) {
+  if ($self->{prtAlertDescription} !~ /Sleep|Energiesparmodus|Warm-up/i) {
     $self->add_warning();
   }
 }
